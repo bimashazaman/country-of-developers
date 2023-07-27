@@ -1,0 +1,23 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /var/www/pokersocial
+file_exists_behavior: OVERWRITE
+hooks:
+  BeforeInstall:
+    - location: scripts/codedeploy-install-dependencies.sh
+      timeout: 300
+      runas: root
+  AfterInstall:
+    - location: scripts/codedeploy-clear-cache.sh
+      timeout: 300
+      runas: root
+  ApplicationStart:
+    - location: scripts/codedeploy-run-migrations.sh
+      timeout: 300
+      runas: root
+  ApplicationStop:
+    - location: scripts/codedeploy-stop-server.sh
+      timeout: 300
+      runas: root
